@@ -1,5 +1,8 @@
 from pathlib import Path
 import json
+import time
+import matplotlib.pyplot as plt
+from generators import unordered_sequence, ordered_sequence
 
 file_name = "sequential.json"
 
@@ -73,6 +76,41 @@ def binary_search(sequence, hledane_cislo):
             prava = stred - 1
     return None
 
+#ukol4
+def mereni_casu_behu():
+    velikosti = [100, 500, 1000, 5000, 10000]
+    linearni_casy = []
+    binarni_casy = []
+
+    for velikost in velikosti:
+        # data z generatoru
+        data_naivni = unordered_sequence(velikost)
+        data_binarni = ordered_sequence(velikost)
+        hledany_prvek = 5000
+
+        # merim linear
+        start = time.perf_counter()
+        linear_search(data_naivni, hledany_prvek)
+        konec = time.perf_counter()
+        linearni_casy.append(konec - start)
+
+        # merim binar
+        start = time.perf_counter()
+        binary_search(data_binarni, hledany_prvek)
+        konec = time.perf_counter()
+        binarni_casy.append(konec - start)
+
+
+    plt.plot(velikosti, linearni_casy, label="linearni")
+    plt.plot(velikosti, binarni_casy, label="binarni")
+
+    plt.xlabel("pocet pvku")
+    plt.ylabel("cas v sekundach")
+    plt.title("Ukol: Mereni casu behu")
+    plt.legend()
+    plt.show()
+
+
 def main():
     json_filename = "sequential.json"
     sequential_dataset = read_data(json_filename, "unordered_numbers")
@@ -98,6 +136,8 @@ def main():
             print(f"cislo: {hledane_cislo} je na indexu: {index}")
         else:
             print(f"cislo: {hledane_cislo} v seznamu neni")
+
+    mereni_casu_behu()
 
 if __name__ == "__main__":
     main()
