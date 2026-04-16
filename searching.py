@@ -38,6 +38,24 @@ def read_data(file_name, field):
     file_path = cwd_path / file_name
 
 
+def linear_search(sequence, hledane_cislo):
+    """
+    funkce projde seznam prvek po prvku a zapise si kazdy index
+    kde nasla hledane cislo do prazdeneho seznamu. Nakonec vrati seznam techto indexu a jejich celkovy pocet.
+    """
+
+    indexy = []
+
+    for i in range(len(sequence)):
+        if sequence[i] == hledane_cislo:
+            indexy.append(i)
+
+    vysledek = {
+        "positions": indexy,
+        "count": len(indexy)}
+
+    return vysledek
+
 def main():
     json_filename = "sequential.json"
     sequential_dataset = read_data(json_filename, "unordered_numbers")
@@ -46,6 +64,13 @@ def main():
     vysledek = read_data(json_filename, "klic_ktery_neexistuje")
     print(f"testik pro neplatny klic: {vysledek}")
 
+    if sequential_dataset:
+        moje_cislo = 9
+        vystup = linear_search(sequential_dataset, moje_cislo)
+
+        print(f"tohle cislo jsem hledal: {moje_cislo}")
+        print(f"nasel jsem ho na indexu: {vystup['positions']}")
+        print(f"tolikrát tam bylo: {vystup['count']}")
 
 if __name__ == "__main__":
     main()
