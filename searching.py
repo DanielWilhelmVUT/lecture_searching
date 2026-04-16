@@ -1,6 +1,8 @@
 from pathlib import Path
 import json
 
+file_name = "sequential.json"
+
 
 def read_data(file_name, field):
     """
@@ -17,6 +19,19 @@ def read_data(file_name, field):
             - str: If field is 'dna_sequence'.
             - None: If the field is not supported.
     """
+    try:
+        with open(file_name, "r", encoding="utf-8") as f:
+            reader = json.load(f)
+        if field in reader.keys():
+            return reader[field]
+        else:
+            print(f"klic neexistuje: {field}")
+            return None
+
+    except FileNotFoundError:
+        print(f"nenasel jsem soubor: {file_name}")
+        return None
+
     # get current working directory path
     cwd_path = Path.cwd()
     
@@ -24,7 +39,12 @@ def read_data(file_name, field):
 
 
 def main():
-    pass
+    json_filename = "sequential.json"
+    sequential_dataset = read_data(json_filename, "unordered_numbers")
+    print(sequential_dataset)
+
+    vysledek = read_data(json_filename, "klic_ktery_neexistuje")
+    print(f"testik pro neplatny klic: {vysledek}")
 
 
 if __name__ == "__main__":
