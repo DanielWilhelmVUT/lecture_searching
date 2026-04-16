@@ -4,6 +4,7 @@ import json
 file_name = "sequential.json"
 
 
+#ukol1
 def read_data(file_name, field):
     """
     Reads a JSON file and returns data for a given field.
@@ -37,7 +38,7 @@ def read_data(file_name, field):
     
     file_path = cwd_path / file_name
 
-
+#ukol2
 def linear_search(sequence, hledane_cislo):
     """
     funkce projde seznam prvek po prvku a zapise si kazdy index
@@ -56,6 +57,22 @@ def linear_search(sequence, hledane_cislo):
 
     return vysledek
 
+#ukol3
+def binary_search(sequence, hledane_cislo):
+    leva = 0
+    prava = len(sequence) - 1
+
+    while leva <= prava:
+        stred = (leva + prava) // 2
+
+        if sequence[stred] == hledane_cislo:
+            return stred
+        elif sequence[stred] < hledane_cislo:
+            leva = stred + 1
+        else:
+            prava = stred - 1
+    return None
+
 def main():
     json_filename = "sequential.json"
     sequential_dataset = read_data(json_filename, "unordered_numbers")
@@ -71,6 +88,16 @@ def main():
         print(f"tohle cislo jsem hledal: {moje_cislo}")
         print(f"nasel jsem ho na indexu: {vystup['positions']}")
         print(f"tolikrát tam bylo: {vystup['count']}")
+
+    serazena_data = read_data(json_filename, "ordered_numbers")
+    if serazena_data:
+        hledane_cislo = 120
+        index = binary_search(serazena_data, hledane_cislo)
+        print(serazena_data)
+        if index is not None:
+            print(f"cislo: {hledane_cislo} je na indexu: {index}")
+        else:
+            print(f"cislo: {hledane_cislo} v seznamu neni")
 
 if __name__ == "__main__":
     main()
